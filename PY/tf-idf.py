@@ -11,12 +11,12 @@ import tokenizer as tokenizer
 #dataProvider.initializeDataBase()  
 #dataProvider.storeFilesOnDatabase()
 
-#tokenizer.initializeDataBaseRI()
-#tokenizer.tokenizeComents()
-#tokenizer.getTerms(bool(1))
+tokenizer.initializeDataBaseRI()
+tokenizer.tokenizeComents()
+tokenizer.getTerms(bool(1))
 
-tokenizer.updateTokens1('''area''')
-tokenizer.updateTokens1('area')
+#tokenizer.updateTokens1('''area''')
+#tokenizer.updateTokens1('area')
   
 
       

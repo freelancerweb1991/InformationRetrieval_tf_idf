@@ -2,7 +2,7 @@ import os
 import sqlite3  
  
 dataPath = 'data\hotels\data'
-dbPath = 'data\hotels\dataBase.db' 
+dbPath = 'data\dataBase.db' 
 
 # this function initialize database for store stracture data.
 def initializeDataBase():
@@ -67,7 +67,7 @@ def getHotelsCount():
 def getComments():
     conn = sqlite3.connect(dbPath)
     cur = conn.cursor()
-    cur.execute('SELECT * FROM comments LIMIT 2') 
+    cur.execute('SELECT * FROM comments') 
     rows = cur.fetchall()
 
     """  

@@ -6,9 +6,8 @@ import nltk
 import re
 
 
-
 corpus = {}
-dbPathRI = 'data\hotels\dataBaseRI.db'
+dbPathRI = 'data\dataBaseRI.db'
 def initializeDataBaseRI():
     conn = sqlite3.connect(dbPathRI)
     cur = conn.cursor()
@@ -33,6 +32,8 @@ def tokenizeComents():
         """ for i in filteredTokens:
             print(i) """
         freq = {word: stemmedTokens.count(word) for word in set(stemmedTokens)}
+        print('document.id=', comment[0], ':')
+        print(freq)
 
         updateTokens(comment[0], freq)  
 
@@ -46,15 +47,15 @@ def tokenizeComents():
 def updateTokens(docId, terms):
     conn = sqlite3.connect(dbPathRI)
     cur = conn.cursor()
-    frmtupdt= ',{}:{}'
     for term in terms:
-        cur.execute('SELECT count(1) FROM terms WHERE token = ?',(term,))
+        frmtupdt= ',{}:{}'
+        cur.execute('SELECT count(1) FROM terms WHERE token = ?', [term])
         isExisted = cur.fetchone()[0]
         if(isExisted > 0):
-            cur.execute('UPDATE terms SET info = info + ? where token= ?  ',(frmtupdt.format(docId,terms[term]), term)) 
+            cur.execute('UPDATE terms SET info = info || ? where token= ?  ', (frmtupdt.format(docId, terms[term]), term)) 
         else:
             frmtupdt= '{}:{}'
-            cur.execute('INSERT INTO terms (token, info) VALUES (?, ?)',(frmtupdt.format(docId,terms[term]), term))
+            cur.execute('INSERT INTO terms (info, token) VALUES (?, ?)', (frmtupdt.format(docId, terms[term]), term))
     conn.commit()
     cur.close()
 
