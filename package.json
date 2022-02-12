@@ -1,0 +1,18 @@
+{
+  "name": "ri01",
+  "version": "1.0.0",
+  "description": "Information Retrieval system for hotels review (TripAdvisors & Edmunds).",
+  "main": "main.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "RI",
+    "Information",
+    "Retrieval",
+    "TF",
+    "TF-IDF"
+  ],
+  "author": "Farhad Shakouri",
+  "license": "ISC"
+}
