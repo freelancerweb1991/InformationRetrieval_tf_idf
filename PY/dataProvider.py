@@ -64,18 +64,27 @@ def getHotelsCount():
     cur.close()
     return hotelsCount
 
-def getComments():
+def getComments(printResult):
     conn = sqlite3.connect(dbPath)
     cur = conn.cursor()
     cur.execute('SELECT * FROM comments') 
     rows = cur.fetchall()
 
-    """  
-    print('*** COMMENTS ***********************************************************') 
-    for row in rows:
-        print(row[0],'  ',row[1],'  ', row[2],'  ', row[3][:75])  
-    """
+    if(printResult):
+        print('*** COMMENTS ***********************************************************') 
+        for row in rows:
+            print(row[0],'  ',row[1],'  ', row[2],'  ', row[3][:75])  
     
+    
+    conn.commit()
+    cur.close()
+    return rows
+
+def getFilteredComments(filterList):
+    conn = sqlite3.connect(dbPath)
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM comments where id in (?)',[filterList]) 
+    rows = cur.fetchall()
     conn.commit()
     cur.close()
     return rows
