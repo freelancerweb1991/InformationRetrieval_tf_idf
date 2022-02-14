@@ -1,6 +1,9 @@
 # InformationRetrieval_tf_idf
 
-query tokenize time: 0:00:05.952490      
+below is the result for the query of what is best hotel Maryland area best of area'
+total review comments over 159000 exists in our sample data
+
+Step 1.    
 -------------------------------
 inital query matrix:  (tf-wt) = 1+log(tf)
 -------------------------------
@@ -10,15 +13,22 @@ area       2  1.30103
 best       2  1.30103
 hotel      1  1.00000
 meriland   1  1.00000
+
+#executaion time: 0:00:05.952490 
+
+Step 2.
 -------------------------------
-total commenct count: 11436
+After searching in all comments, only according to the algorithm used, only 11436 comments out of the total comments, including one of the search terms.
+The distribution of each semester has been as follows
 -------------------------------
        docId   freq       idf
 term
 area    2718   2718  0.624025
 best    2114   2114  0.733169
 hotel  11118  11118  0.012247
+
 -------------------------------
+
 Raw Frequency docs for terms: 11436
 -------------------------------
 docId  1 10 100 1000 10000 10001 10002 10003 10004 10005 10008 10009  ... 9989 999 9990 9991 9992 9993 9994 9995 9996 9997 9998 9999
