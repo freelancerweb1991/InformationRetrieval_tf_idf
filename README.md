@@ -3,16 +3,15 @@
 below is the result for the query of what is best hotel Maryland area best of area'
 total review comments over 159000 exists in our sample data
 
-###### Step 1.    
-#------------------------------- /n
-inital query matrix:  (tf-wt) = 1+log(tf)  /n
-#------------------------------- /n
-          tf    tf-wt
-term
-area       2  1.30103
-best       2  1.30103
-hotel      1  1.00000
-meriland   1  1.00000
+###### Step 1.     
+inital query matrix:  (tf-wt) = 1+log(tf)   
+
+| term  | tf  | tf-wt  |
+| ------------ | ------------ | ------------ | 
+|area       |2|  1.30103|
+|best       |2 | 1.30103|
+|hotel      |1 | 1.00000|
+|meriland|  1|  1.00000|
 
 ####### executaion time: 0:00:05.952490 
 
@@ -20,22 +19,23 @@ meriland   1  1.00000
 -------------------------------
 After searching in all comments, only according to the algorithm used, only 11436 comments out of the total comments, including one of the search terms.
 The distribution of each semester has been as follows
--------------------------------
-       docId   freq       idf
-term
-area    2718   2718  0.624025
-best    2114   2114  0.733169
-hotel  11118  11118  0.012247
+
+
+|term| docId  | freq  | idf  |
+| ------------ | ------------ | ------------ |  ------------ | 
+|area |   2718   |2718 | 0.624025|
+|best  |  2114  | 2114  |0.733169|
+|hotel  |11118|  11118 | 0.012247|
 
 -------------------------------
 
-Raw Frequency docs for terms: 11436
--------------------------------
-docId  1 10 100 1000 10000 10001 10002 10003 10004 10005 10008 10009  ... 9989 999 9990 9991 9992 9993 9994 9995 9996 9997 9998 9999
-term                                                                  ...
-area   3  1   0    0     0     0     0     0     2     1     0     0  ...    0   0    0    0    0    0    0    0    0    0    0    0  
-best   0  0   0    0     0     1     0     0     1     0     0     0  ...    0   0    0    0    0    0    0    0    0    0    0    0  
-hotel  6  0   5    1     2     1     2     6     2     3     4     2  ...    1   3    2    9    1    1    3    4    2    7    2    3  
+Raw Frequency docs for terms: 11436 
+
+||docId | 1 |10| 100| 1000| 10000| 10001 | 10002 | 10003 | 10004 | 10005 | 10006 | 10007 | ....... | 9995|  9996|  9997|  9998|   ....
+| ------------ | ------------ | ------------ |  ------------ | 
+|term |
+|area|  | 3 | 1|  0    |0  |   0 |    0  |   0 |    0 |    2  |   1 |    0  |   0|  ...   | 0 |  0 |   0 |   0 |  ... 
+|hotel| | 6|  0 |  5|1|2 | 1| 2|6|2|3 |4|2|  ... |   1|3|2| 9| ...
 
 [3 rows x 11436 columns]
 -------------------------------
