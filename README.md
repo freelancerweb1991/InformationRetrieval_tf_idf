@@ -4,9 +4,9 @@ below is the result for the query of what is best hotel Maryland area best of ar
 total review comments over 159000 exists in our sample data
 
 ###### Step 1.    
--------------------------------
+#-------------------------------
 inital query matrix:  (tf-wt) = 1+log(tf)
--------------------------------
+#-------------------------------
           tf    tf-wt
 term
 area       2  1.30103
