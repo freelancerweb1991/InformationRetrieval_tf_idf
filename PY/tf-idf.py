@@ -14,16 +14,18 @@ import searchEngine as searchEngine
 
 #tokenizer.initializeDataBaseRI()
 #tokenizer.tokenizeComents()
-tokenizer.getTermsSummary(bool(1))
+#tokenizer.getTermsSummary(bool(1))
 
 #tokenizer.getTerms(bool(1))
 
-query = 'what is best hotel meriland area'
+query = 'what is best hotel meriland area best of area'
 qur = searchEngine.tokenizeSearchQuery(query)
-print(qur)
  
-N = tokenizer.getTotalDocsCount(qur) 
-print(N)
+
+#searchEngine.printQueryVector()
+ 
+""" N = tokenizer.getTotalDocsCount(qur) 
+print(N) """
  
  
 

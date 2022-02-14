@@ -4,9 +4,15 @@ from fileinput import filename
 import sqlite3   
 import dataProvider as dataProvider
 import nltk
-import re  
+import re
+import numpy as np   
+import pandas as pd
+import tokenizer as tokenizer 
+from termcolor import colored
 
 query = 'what is best hotel'
+global queryVector 
+queryVector = '1'
 
 
 def tokenizeSearchQuery(query):
@@ -20,9 +26,55 @@ def tokenizeSearchQuery(query):
     lemmatizedTokens = [lemmatizer.lemmatize(word) for word in filteredTokens]
     stemmedTokens = [ps.stem(word) for word in lemmatizedTokens]
     print('query tokenize time:',datetime.datetime.now() - startTime)
+
+    freq = []
+    terms = []
+    for i in stemmedTokens:
+        freq.append((i,1))
+        if(i not in terms):
+            terms.append(i)
+
+
+    df = pd.DataFrame(freq, columns=['term','freq'])
+    df = df.groupby(['term'], as_index= True, sort= True).count()
+    df['tf-wt'] = 1 + np.log10(df['freq']) 
+     
+    print('**** inital query matrix ...')
+    print(colored('-------------------------------', 'cyan'))
+    print(colored('inital query matrix:', 'cyan'))
+    print(colored('-------------------------------', 'cyan'))
+    print(df)
+     
+    #print('\n' * 2)
+     
+    tfidf = tokenizer.getDocsMatrix(terms)
+    totalDocsount =  tfidf[0]
+    termsDocFreq =  tfidf[1]
+    normalizedDocsMatrix =  tfidf[2]
+    print(colored('-------------------------------', 'blue'))
+    print(totalDocsount)
+    print(termsDocFreq)
+    print(normalizedDocsMatrix)
+
+    normQueryVector = (df['tf-wt']*termsDocFreq).fillna(0)
+    #normQueryVector = normQueryVector[doc] / sqrt((normQueryVector[doc]*normQueryVector[doc]).sum())
+    print(colored('-------------------------------', 'cyan'))
+    print(colored('Normalized query vector:', 'cyan'))
+    print(colored('-------------------------------', 'cyan'))
+    print(normQueryVector)
+
+    cosinVectors = normQueryVector*normalizedDocsMatrix
+    print(colored('-------------------------------', 'cyan'))
+    print(colored('all cosinuse similarity vectors:', 'cyan'))
+    print(colored('-------------------------------', 'cyan'))
+    print(cosinVectors)
+
+    print('-----------------------------------------------------------------------')
+
     return {word: stemmedTokens.count(word) for word in set(stemmedTokens)}
 
-
+def printQueryVector():
+    print(queryVector)
 """  
 def cosine_similarity_T(k, tokens):
     q_df = pd.DataFrame(columns=['q_clean'])

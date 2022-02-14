@@ -1,5 +1,7 @@
 import datetime
 from fileinput import filename
+from math import sqrt
+from operator import index
 import sqlite3   
 import dataProvider as dataProvider
 import nltk
@@ -7,6 +9,8 @@ import re
 import pandas as pd
 import numpy as np 
 import searchEngine as searchEngine 
+from sklearn.preprocessing import Normalizer
+from termcolor import colored
 
 
 corpus = {}
@@ -36,10 +40,14 @@ def tokenizeComents():
         filteredTokens = [word for word in allTokens if not word in stop_words]
         lemmatizedTokens = [lemmatizer.lemmatize(word) for word in filteredTokens]
         stemmedTokens = [ps.stem(word) for word in lemmatizedTokens]
-        
-        freq = {word: stemmedTokens.count(word) for word in set(stemmedTokens)}
 
-        updateTokens(comment[0], freq)  
+        df = pd.DataFrame(stemmedTokens, columns=['term','count']) 
+        grouped = df.groupby(['term'], as_index= False).count()
+        print(grouped)
+        
+        #freq = {word: stemmedTokens.count(word) for word in set(stemmedTokens)}
+
+        #updateTokens(comment[0], freq)  
 
         """ print ('** allTokens:',allTokens.__len__(),' ** after deleting stop words filteredTokens:', filteredTokens.__len__(), ' --', lemmatizedTokens.__len__(), ' --', stemmedTokens.__len__()) """
         if(tokenizedCommentsCount%1000 == 0):
@@ -150,7 +158,82 @@ def getTotalDocsIds(words):
     print('Total Docs Count calculation time:',datetime.datetime.now() - startTime) 
     return allDocs
 
-query = 'what is best hotel meriland area'
+def getDocsMatrix(terms): 
+    startTime = datetime.datetime.now()
+    totalDocsount = 0
+    allDocs = []
+    wordsFreqs = []
+    docFreqs = []
+    conn = sqlite3.connect(dbPathRI)
+
+    for term in terms:
+        cur = conn.cursor()
+        cur.execute('SELECT info FROM terms WHERE token = ?', [term])
+        rows = cur.fetchone()
+        if(rows == None):
+            continue
+        docs = rows[0].split(',') 
+        tf = docs.__len__()
+        for doc in docs:
+            docId = doc.split(':')[0]
+            frq = doc.split(':')[1]
+            if(not docId in allDocs):
+                allDocs.append(docId)
+            wordsFreqs.append((term, docId, frq ))
+            docFreqs.append(term)
+    totalDocsount = allDocs.__len__() 
+
+    
+
+    df = pd.DataFrame(wordsFreqs, columns=['term','docId','freq']) 
+    grouped = df.groupby(['term'], as_index= True).count() 
+     
+    grouped['idf'] =  np.log10(totalDocsount/ grouped['freq'])  # add function to support smart coding
+    #grouped['tf-raw'] = qur[grouped['term']] 
+    #grouped['tf-wt'] = qur[grouped['term']] 
+    termsDocFreq = grouped['idf']
+    print(colored('-------------------------------', 'cyan'))
+    print(colored('total commenct count:', 'cyan'), totalDocsount)
+    print(colored('-------------------------------', 'cyan'))
+    print(termsDocFreq) 
+
+    weightedWordsFreqs = []
+    for word in wordsFreqs:
+        freq = int(word[2])
+        wt = (1 + np.log10(freq)) # add function to support smart coding
+        weightedWordsFreqs.append((word[0], word[1], wt))
+
+    pv1 = df.pivot(index='term', columns='docId')['freq'].fillna(0) 
+    
+     
+    print(colored('-------------------------------', 'magenta'))
+    print(colored('Raw Frequency docs for terms:', 'magenta'), totalDocsount)
+    print(colored('-------------------------------', 'magenta'))
+    print(pv1)
+    
+    df = pd.DataFrame(weightedWordsFreqs, columns=['term','docId','freq'])
+    pv = df.pivot(index='term', columns='docId')['freq'].fillna(0) 
+    normalizedDocsMatrix = df.pivot(index='term', columns='docId')['freq'].fillna(0) 
+
+    for doc in allDocs:
+        normalizedDocsMatrix[doc] =  normalizedDocsMatrix[doc] / sqrt((normalizedDocsMatrix[doc]*normalizedDocsMatrix[doc]).sum())
+    
+    """ transformer = Normalizer().fit(df2)
+    tt = transformer.transform(df2) """
+    
+
+    
+    print(colored('-------------------------------', 'yellow'))
+    print(colored('waited documents:', 'yellow'), totalDocsount)
+    print(colored('-------------------------------', 'yellow'))
+    print(pv)
+    print(colored('-------------------------------', 'green'))
+    print(colored('normalized documents:', 'green'), totalDocsount)
+    print(colored('-------------------------------', 'green'))
+    print(normalizedDocsMatrix)
+    return (totalDocsount, termsDocFreq,normalizedDocsMatrix)
+ 
+""" query = 'what is best hotel meriland area'
 qur = searchEngine.tokenizeSearchQuery(query)
 startTime = datetime.datetime.now()
 totalDocsount = 0
@@ -179,11 +262,12 @@ totalDocsount = allDocs.__len__()
 df = pd.DataFrame(wordsFreqs, columns=['term','docId','freq']) 
 grouped = df.groupby(['term'], as_index= True).count()
 grouped['idf'] = (1+ np.log(1)) *  np.log(totalDocsount/ grouped['freq'])
-grouped['tf-raw'] = qur[grouped['term']] 
-grouped['tf-wt'] = qur[grouped['term']] 
+#grouped['tf-raw'] = qur[grouped['term']] 
+#grouped['tf-wt'] = qur[grouped['term']] 
+ 
 
 print(grouped)
-print('total commenct count:', totalDocsount)
+print('total commenct count:', totalDocsount) """
 
 
 
