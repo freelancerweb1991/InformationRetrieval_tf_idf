@@ -126,107 +126,69 @@ Weighted documents: 11436
 |449  |  2513  |0.857915|
 
 -------------------------------
-##### **0.9987105700023257      Nov 30 2007**
+##### sample output of this solution is as belowe:
 
-.......are all way past their best (was brown ever at its .......the microwave in the kitchen area seemed to be an early
-********************************************
+#### **0.9987105700023257      Nov 30 2007**
 
-#####** 0.9987105700023257      Oct 29 2009**
+.......are all way past their best (was brown ever at its .......the microwave in the kitchen area seemed to be an early 
 
-still one of the best values in chicago heart of chicago
-********************************************
--------------------------------
+#### ** 0.9987105700023257      Oct 29 2009**
+
+still one of the best values in chicago heart of chicago 
+
 ##### **0.9967343315261221      Nov 10 2008**
 -------------------------------
-.......) was one of the best i have ever had and .......supherb and took us to areas we would never have gone
-********************************************
--------------------------------
-#####** 0.9967343315261221      Aug 23 2009**
--------------------------------
+.......) was one of the best i have ever had and .......supherb and took us to areas we would never have gone 
+
+####** 0.9967343315261221      Aug 23 2009**
 .......close to the main pedestrian areas downtown and also close to .......tidy and fully self contained. best of all the staff were 
-********************************************
--------------------------------
-##### **0.9967343315261221      Aug 17 2006**
--------------------------------
+
+#### **0.9967343315261221      Aug 17 2006**
 .......knew which gate was the best to approach. anyway, the lobby .......with kids! a large dining area with living room adjacent to 
-********************************************
--------------------------------
-##### ** 0.9967343315261221      Nov 1 2009**
--------------------------------
+#### ** 0.9967343315261221      Nov 1 2009**
 best area the peninsula is located near the forbidden city, a
-********************************************
--------------------------------
-##### **0.9967343315261221      Jan 27 2009**
--------------------------------
+
+#### **0.9967343315261221      Jan 27 2009**
 .......buffet is one of the best we've had. the dinner buffet .......was free!!!). use the lounge area for some quiet time -
-********************************************
--------------------------------
-##### **0.9967343315261221      Aug 27 2008**
--------------------------------
+
+#### **0.9967343315261221      Aug 27 2008**
 .......does not have a shallow/step area and there is not a
-********************************************
--------------------------------
-##### **0.9967343315261221      Sep 20 2005**
--------------------------------
+
+#### **0.9967343315261221      Sep 20 2005**
 not the best but not the worst either we arrived at .......of the lake and the area museums. if you like to
-********************************************
--------------------------------
-##### **0.9967343315261221      Nov 15 2009**
--------------------------------
+
+#### **0.9967343315261221      Nov 15 2009**
 .......top! the location is the best part of this property, the
-********************************************
--------------------------------
-##### **0.9967343315261221      Jul 9 2007**
--------------------------------
+
+#### **0.9967343315261221      Jul 9 2007**
 .......go. the rooms and common areas were all very classy and .......that the conrad is the best of all of them.
-********************************************
--------------------------------
-##### **0.9967343315261221      Oct 26 2007**
--------------------------------
+
+#### **0.9967343315261221      Oct 26 2007**
 .......morning breakfast buffet. the reception area was rather cool but we
-********************************************
--------------------------------
-#####** 0.9967343315261221      Jun 14 2009**
--------------------------------
+
+#### ** 0.9967343315261221      Jun 14 2009**
 .......it might not be the best of areas (we really are no experts
-********************************************
--------------------------------
+
 ##### **0.9967343315261221      Oct 29 2008**
--------------------------------
 .......highly recommend. this is the best value in this area of chicago. nz
-********************************************
--------------------------------
+
 ##### **0.9967343315261221      Jun 8 2009**
--------------------------------
 best in beijing you pay for it but worth it fantastic .......service, limo from airport, spa area is great. pool great. just
-********************************************
--------------------------------
+
 ##### **0.963584012403216      Jul 5 2006**
--------------------------------
 .......in there, but the sitting area made up for it. the .......toiletries. it is also the best location...right on michigan avenue by
-********************************************
--------------------------------
+
 ##### **0.8804169224612923      Mar 31 2008**
--------------------------------
 best mix of everything in wangfujing area in beijing. stay at crowne .......windows facing west or south. hotel reception staff has been very
-********************************************
--------------------------------
+
 #####** 0.871744999568423      Sep 3 2007**
--------------------------------
 .......and the nice communal bar area does food throughout most of .......it to be in the best location compared to othe hotels and hostels. it is walkable
-********************************************
--------------------------------
+
 #####0.8579153600838166      Nov 14 2005
--------------------------------
 best overall value without major sacrifices this is the best value for the dollar of .......the 4 walls. 4. sitting area had couch, chair, coffee table,
-********************************************
--------------------------------
+
 #####0.8579153600838166      Jul 12 2004
--------------------------------
-.......which we really appreciated. the hotel lobby is on the 6th .......7 blocks away, so it's best to take everything out of        
-********************************************
--------------------------------
+.......which we really appreciated. the hotel lobby is on the 6th .......7 blocks away, so it's best to take everything out of
+
 #####0.8579153600838166      May 10 2007
--------------------------------
 .......neighborhood with a non-tourist shopping area near the subway to find
-********************************************
