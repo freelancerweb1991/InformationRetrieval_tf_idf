@@ -1,15 +1,11 @@
-import datetime
-from fileinput import filename
-from math import sqrt
-from operator import index
+import datetime 
+from math import sqrt 
 import sqlite3   
 import dataProvider as dataProvider
 import nltk
 import re
 import pandas as pd
-import numpy as np 
-import searchEngine as searchEngine 
-from sklearn.preprocessing import Normalizer
+import numpy as np   
 from termcolor import colored
 
 
@@ -45,9 +41,9 @@ def tokenizeComents():
         grouped = df.groupby(['term'], as_index= False).count()
         print(grouped)
         
-        #freq = {word: stemmedTokens.count(word) for word in set(stemmedTokens)}
+        freq = {word: stemmedTokens.count(word) for word in set(stemmedTokens)}
 
-        #updateTokens(comment[0], freq)  
+        updateTokens(comment[0], freq)  
 
         """ print ('** allTokens:',allTokens.__len__(),' ** after deleting stop words filteredTokens:', filteredTokens.__len__(), ' --', lemmatizedTokens.__len__(), ' --', stemmedTokens.__len__()) """
         if(tokenizedCommentsCount%1000 == 0):
@@ -71,92 +67,6 @@ def updateTokens(docId, terms):
             cur.execute('INSERT INTO terms (info, token) VALUES (?, ?)', (frmtupdt.format(docId, terms[term]), term))
     conn.commit()
     cur.close()
-
-def getTerms(isPrintResult):
-    conn = sqlite3.connect(dbPathRI)
-    cur = conn.cursor()
-    cur.execute('SELECT id, token, info FROM terms order by token')
-    rows = cur.fetchall()
-
-    if(isPrintResult):
-        for row in rows:
-            print(row)
-        if(rows.__len__() == 0):
-            print ('terms is empty table.')
-
-    conn.commit()
-    cur.close()
-    return rows
-
-    
-def getTermsSummary(isPrintResult):
-    conn = sqlite3.connect(dbPathRI)
-    cur = conn.cursor()
-    cur.execute('SELECT count(id) FROM terms order by token')
-    rows = cur.fetchall()
-
-    if(isPrintResult):
-        for row in rows:
-            print(row)
-        if(rows.__len__() == 0):
-            print ('terms is empty table.')
-
-    conn.commit()
-    cur.close()
-    return rows
-
-def getTotalDocsCount(words):
-    startTime = datetime.datetime.now()
-    totalDocsount = 0
-    allDocs = []
-    wordsFreqs = []
-    docFreqs = []
-    conn = sqlite3.connect(dbPathRI)
-    
-    for word in words:
-        cur = conn.cursor()
-        cur.execute('SELECT info FROM terms WHERE token = ?', [word])
-        rows = cur.fetchone()
-        if(rows == None):
-            continue
-        docs = rows[0].split(',') 
-        tf = docs.__len__()
-        for doc in docs:
-            docId = doc.split(':')[0]
-            frq = doc.split(':')[1]
-            if(not docId in allDocs):
-                allDocs.append(docId)
-            wordsFreqs.append((word, docId, frq ))
-            docFreqs.append(word)
-    totalDocsount = allDocs.__len__() 
-    
-    df = pd.DataFrame(wordsFreqs) 
-    
-    df
-    #freq = {word[0]: wordsFreqs.count(word[1]) for word in set(wordsFreqs)}
-     
-    print('Total Docs Count calculation time:',datetime.datetime.now() - startTime) 
-    return totalDocsount
-    
-def getTotalDocsIds(words):
-    startTime = datetime.datetime.now() 
-    allDocs = [] 
-    conn = sqlite3.connect(dbPathRI) 
-    for word in words:
-        cur = conn.cursor()
-        cur.execute('SELECT info FROM terms WHERE token = ?', [word])
-        rows = cur.fetchone()
-        if(rows == None):
-            continue
-        docs = rows[0].split(',') 
-        tf = docs.__len__()
-        for doc in docs:
-            docId = doc.split(':')[0] 
-            if(not docId in allDocs):
-                allDocs.append(docId)  
-     
-    print('Total Docs Count calculation time:',datetime.datetime.now() - startTime) 
-    return allDocs
 
 def getDocsMatrix(terms): 
     startTime = datetime.datetime.now()
@@ -195,7 +105,7 @@ def getDocsMatrix(terms):
     print(colored('-------------------------------', 'cyan'))
     print(colored('total commenct count:', 'cyan'), totalDocsount)
     print(colored('-------------------------------', 'cyan'))
-    print(termsDocFreq) 
+    print(grouped) 
 
     weightedWordsFreqs = []
     for word in wordsFreqs:
@@ -231,44 +141,136 @@ def getDocsMatrix(terms):
     print(colored('normalized documents:', 'green'), totalDocsount)
     print(colored('-------------------------------', 'green'))
     print(normalizedDocsMatrix)
-    return (totalDocsount, termsDocFreq,normalizedDocsMatrix)
+    return (totalDocsount, termsDocFreq,normalizedDocsMatrix, allDocs)
  
-""" query = 'what is best hotel meriland area'
-qur = searchEngine.tokenizeSearchQuery(query)
-startTime = datetime.datetime.now()
-totalDocsount = 0
-allDocs = []
-wordsFreqs = []
-docFreqs = []
-conn = sqlite3.connect(dbPathRI)
-
-for word in qur:
+def getTerms(isPrintResult):
+    conn = sqlite3.connect(dbPathRI)
     cur = conn.cursor()
-    cur.execute('SELECT info FROM terms WHERE token = ?', [word])
-    rows = cur.fetchone()
-    if(rows == None):
-        continue
-    docs = rows[0].split(',') 
-    tf = docs.__len__()
-    for doc in docs:
-        docId = doc.split(':')[0]
-        frq = doc.split(':')[1]
-        if(not docId in allDocs):
-            allDocs.append(docId)
-        wordsFreqs.append((word, docId, frq ))
-        docFreqs.append(word)
-totalDocsount = allDocs.__len__() 
+    cur.execute('SELECT id, token, info FROM terms order by token')
+    rows = cur.fetchall()
 
-df = pd.DataFrame(wordsFreqs, columns=['term','docId','freq']) 
-grouped = df.groupby(['term'], as_index= True).count()
-grouped['idf'] = (1+ np.log(1)) *  np.log(totalDocsount/ grouped['freq'])
-#grouped['tf-raw'] = qur[grouped['term']] 
-#grouped['tf-wt'] = qur[grouped['term']] 
- 
+    if(isPrintResult):
+        for row in rows:
+            print(row)
+        if(rows.__len__() == 0):
+            print ('terms is empty table.')
 
-print(grouped)
-print('total commenct count:', totalDocsount) """
+    conn.commit()
+    cur.close()
+    return rows
+    
+def getTermsSummary(isPrintResult):
+    conn = sqlite3.connect(dbPathRI)
+    cur = conn.cursor()
+    cur.execute('SELECT count(id) FROM terms order by token')
+    rows = cur.fetchall()
+
+    if(isPrintResult):
+        for row in rows:
+            print(row)
+        if(rows.__len__() == 0):
+            print ('terms is empty table.')
+
+    conn.commit()
+    cur.close()
+    return rows
 
 
+def getText(text, filterList, k):
+    stop_words = set(nltk.corpus.stopwords.words('english'))
+    lemmatizer = nltk.stem.WordNetLemmatizer()
+    ps = nltk.stem.PorterStemmer()
+    allTokens = []
+    terms = []
+    bow = text.split()
+    for word in bow:
+        allTokens.append((bow.index(word), word.lower())) 
+    #filteredTokens = [word for word in allTokens if not word[1] in stop_words] 
+    totalIndexCount = allTokens.__len__()    
+    for word in allTokens:
+        term = re.sub('[^a-zA-Z]',' ',word[1])
+        if(term.__len__() <= 1):
+            continue
+        if(term in stop_words):
+            continue
+        term = lemmatizer.lemmatize(term)
+        term = ps.stem(term)
+        if(term not in filterList):
+            continue
+        terms.append((word[0]))
 
-   
+    selectedText = [] 
+    for term in terms:
+         
+        startIndex = 0
+        if term > k:
+            startIndex = term - k
+            
+        endIndex = startIndex + 2*k
+        if(endIndex > totalIndexCount - 1):
+            endIndex = totalIndexCount - 1
+        
+        i = startIndex
+        while i <= endIndex:
+            if(i not in selectedText):
+                selectedText.append(i)
+            i+=1
+
+    lastPrintIndex = 0
+    printedText = ''
+    for i in selectedText:
+        if(i - lastPrintIndex > 1):
+            printedText += '.......'
+        printedText += allTokens[i][1] + ' '
+        lastPrintIndex = i 
+    
+    return printedText
+
+def tokenizeComentsNew(): 
+    startTime = datetime.datetime.now()
+    print ('Creatin RI database start time:', startTime)
+    stop_words = set(nltk.corpus.stopwords.words('english'))
+    lemmatizer = nltk.stem.WordNetLemmatizer()
+    ps = nltk.stem.PorterStemmer()
+    
+
+    allComments = dataProvider.getComments(bool(0))
+    allCommentsCount = allComments.__len__()
+    tokenizedCommentsCount = 0
+    clearedTokens = []
+    for comment in allComments:
+        tokenizedCommentsCount+=1
+        allTokens = []
+        terms = []
+        bow = comment[3].split()
+        for word in bow:
+            allTokens.append((bow.index(word), word.lower())) 
+        #filteredTokens = [word for word in allTokens if not word[1] in stop_words] 
+         
+        for word in allTokens:
+            term = re.sub('[^a-zA-Z]',' ',word[1])
+            if(term.__len__() <= 1):
+                continue
+            if(term in stop_words):
+                continue
+            term = lemmatizer.lemmatize(term)
+            term = ps.stem(term)
+            clearedTokens.append((term, word[0], comment[0]))
+  
+        #print(colored('-------------------------------', 'cyan'))
+
+        df = pd.DataFrame(clearedTokens, columns=['term','location', 'commentId']) 
+        #grouped = df.groupby(['term'], as_index= True).count()
+        #print(df) 
+        
+        #freq = {word: stemmedTokens.count(word) for word in set(stemmedTokens)}
+
+        #updateTokens(comment[0], freq)  
+
+        """ print ('** allTokens:',allTokens.__len__(),' ** after deleting stop words filteredTokens:', filteredTokens.__len__(), ' --', lemmatizedTokens.__len__(), ' --', stemmedTokens.__len__()) """
+        if(tokenizedCommentsCount%1000 == 0):
+            print(colored('commects tokenize:', 'cyan'), tokenizedCommentsCount/allCommentsCount*100) 
+
+    endTime = datetime.datetime.now()
+    print('complete creating RI database:', endTime)
+    print('Total duration:', endTime - startTime)    

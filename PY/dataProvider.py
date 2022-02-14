@@ -67,7 +67,7 @@ def getHotelsCount():
 def getComments(printResult):
     conn = sqlite3.connect(dbPath)
     cur = conn.cursor()
-    cur.execute('SELECT * FROM comments') 
+    cur.execute('SELECT * FROM comments limit 2000') 
     rows = cur.fetchall()
 
     if(printResult):
@@ -83,11 +83,21 @@ def getComments(printResult):
 def getFilteredComments(filterList):
     conn = sqlite3.connect(dbPath)
     cur = conn.cursor()
-    cur.execute('SELECT * FROM comments where id in (?)',[filterList]) 
-    rows = cur.fetchall()
+    cur.execute('SELECT comment FROM comments where id in (?)',[filterList]) 
+    rows = cur.fetchone()
     conn.commit()
     cur.close()
     return rows
+
+def getComment(id, bow):
+    conn = sqlite3.connect(dbPath)
+    t= bow
+    cur = conn.cursor()
+    cur.execute('SELECT hotelId, comment, date FROM comments where id = ?',[id]) 
+    row = cur.fetchone()
+    conn.commit()
+    cur.close()
+    return row#[0], row[1], row[2]
  
 def getCommentsCount():
     conn = sqlite3.connect(dbPath)
