@@ -3,7 +3,7 @@
 below is the result for the query of what is best hotel Maryland area best of area'
 total review comments over 159000 exists in our sample data
 
-######Step 1.    
+###### Step 1.    
 -------------------------------
 inital query matrix:  (tf-wt) = 1+log(tf)
 -------------------------------
@@ -14,9 +14,9 @@ best       2  1.30103
 hotel      1  1.00000
 meriland   1  1.00000
 
-#######executaion time: 0:00:05.952490 
+####### executaion time: 0:00:05.952490 
 
-######Step 2.
+###### Step 2.
 -------------------------------
 After searching in all comments, only according to the algorithm used, only 11436 comments out of the total comments, including one of the search terms.
 The distribution of each semester has been as follows
